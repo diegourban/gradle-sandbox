@@ -1,11 +1,41 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
-version = '1.0.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+// task without action
+task taskWithoutAction
+
+// task with action
+// << assigns an action to the task
+task taskWithAction << {
+	println 'test with action'
 }
 
-dependencies {
-	testCompile group: 'junit', name: 'junit', version: '4.12'
+
+// simple hello world
+task helloWorld << {
+	println 'hello, world'
 }
+
+
+// defining a task
+task hello
+
+// appending an action to hello
+hello << {
+	print 'hello, '
+}
+
+
+// appending a second action to hello
+hello << {
+	println 'world'
+}
+
+
+// task configuration
+task initializeDatabase
+initializeDatabase << {println 'connect to database'} // this is the first action, will run on execution phase
+initializeDatabase << {println 'update database schema'} // this is the second action, will run on execution phase
+initializeDatabase {println 'configuring database connection'} // this is a configuration block, will run during configuration lifecycle phase
+
+// the lifecycle: initialization > configuration > execution
