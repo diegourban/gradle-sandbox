@@ -39,3 +39,86 @@ initializeDatabase << {println 'update database schema'} // this is the second a
 initializeDatabase {println 'configuring database connection'} // this is a configuration block, will run during configuration lifecycle phase
 
 // the lifecycle: initialization > configuration > execution
+
+
+/*
+Every build is an internal object model for gradle
+Every task you declare is actually a task object in your project.
+A task object has properties and methods.
+By default, each task receives the type of DefaultTask.
+*/
+
+// ----------------------------------
+// ----- Methods of DefaultTask -----
+// ----------------------------------
+
+// ----- Method: dependsOn(task)
+// Adds a task as a dependency of the calling task. The depended-on task will always run before the task that depends on it
+// Examples:
+task createSchema
+task compileTestClasses
+
+// declare that loadTestData1 depends on createSchema
+task loadTestData1 {
+  dependsOn createSchema
+}
+
+// an alternate way to express the same dependency
+task loadTestData2 {
+  dependsOn << createSchema
+}
+
+// do the same using single quotes
+task loadTestData3 {
+  dependsOn 'createSchema'
+}
+
+// explicitly call the method on the task object
+task loadTestData4 
+loadTestData4.dependsOn  createSchema
+
+// shortcut for declaring dependencies
+task loadTestData5(dependsOn: createSchema)
+
+// declare more dependencies
+task loadTestDate6 {
+  dependsOn << compileTestClasses
+  dependsOn << createSchema
+}
+
+// pass dependencies as a variable-length list
+task loadTestDate7 {
+  dependsOn compileTestClasses, createSchema
+}
+
+// explicitly call the taks methods
+task loadTestDate8 
+loadTestDate8.dependsOn compileTestClasses, createSchema
+
+// shortcut for declaring dependencies
+task loadTestData9(dependsOn: [compileTestClasses, createSchema])
+
+
+// ----- Method: doFirst(closure)
+// Adds a block of executable code to the beginning of a task's action.
+// Examples:
+
+task setupDatabaseTests << {
+  println 'load test data'
+}
+
+setupDatabaseTests.doFirst {
+  println 'do something first'
+}
+
+// using configuration block
+setupDatabaseTests {
+  doFirst {
+    println 'create database schema'
+  }
+  
+  doFirst {
+    println 'drop database schema'
+  }
+}
+
