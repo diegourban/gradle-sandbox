@@ -122,3 +122,25 @@ setupDatabaseTests {
   }
 }
 
+// ----- Method: doLast(closure)
+// doLast method is very similar to doFirst, except that it appends behavior to the end of an action.
+// Examples:
+
+setupDatabaseTests.doLast {
+  println 'load test data'
+}
+
+
+// ----- Method: onlyIf(closure)
+// the onlyIf method allow you to express a predicate which determines wheter a task should be executed.
+// Examples:
+
+task loadSomething << {
+  println 'load something'
+}
+
+// gradle -Dload.data=true loadSomething
+loadSomething.onlyIf {
+  System.properties['load.data'] == 'true'
+}
+
