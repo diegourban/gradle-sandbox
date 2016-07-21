@@ -1,0 +1,81 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// -------------------------------------
+// ----- Properties of DefaultTask -----
+// -------------------------------------
+// ----- Property: didWork
+// a boolean property indicating if the task completed successfully
+// Examples:
+task emailMe(dependsOn: compileJava) << {
+  if(tasks.compileJava.didWork) {
+    println 'Send email announcing success'
+  }
+}
+
+// ----- Property: enable
+// a boolean indicating if the task will execute
+// Examples:
+task templates << {
+  println 'process email templates'
+}
+
+task sendEmails(dependsOn: templates) << {
+  println 'send emails'
+}
+
+// change enabled to true/false
+sendEmails.enabled = false
+
+
+// ----- Property: path
+// a string property containing the fulle qualified path of a task
+// Examples:
+task echoMyPath << {
+  println 'this task is ${path}'
+}
+
+
+// ----- Property: logger
+// reference to the internal Gradle logger object. Implements the org.slf4j.Logger
+// Examples:
+task logLevel << {
+  def levels = ['DEBUG', 'INFO', 'LIFECYCLE', 'QUIET', 'WARN', 'ERROR']
+  
+  levels.each{ level ->
+    logging.level = level
+    def logMessage = "SETTING LogLevel=${level}"
+    logger.error logMessage
+    logger.error '-' * logMessage.size()
+    logger.debug 'DEBUG ENABLED'
+    logger.info 'INFO ENABLED'
+    logger.lifecycle 'LIFECYCLE ENABLED'
+    logger.warn 'WARN ENABLED'
+    logger.quiet 'QUIET ENABLED'
+    logger.error 'ERROR ENABLED'
+    println 'THIS IS println OUTPUT'
+    logger.error ' '
+  }
+}
+
+// the logging property gives us access to the log level
+
+// ----- Property: description
+// the description property is just what it sounds like: a small piece of human-readable metadata do document the task
+// Examples:
+task helloWorld(description: 'Say hello to the world') << {
+  println 'hello, world'
+}
+
+task helloWorld2 << {
+  println 'hello, world'
+}
+helloWorld2 {
+  description: 'Say hello to the world'
+}
+
+// another way to do it
+helloWorld2.description = 'Say hello to the world'
+
+// ----- Property: temporaryDir
+// this property returns a File object pointing to a temporary directory belonging to this build file
