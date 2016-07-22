@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// ----------------------
+// ----- Task Types -----
+// ----------------------
+// Besides the DefaultTask, there are tasks types for copying, archiving, executing programs and many more.
+// Declaring a task is a lot like extending a base class in a object-oriented programming language
+
+// ----- Type: Copy
+// The Copy task copies files from one place to another
+task copyFiles(type: Copy) {
+  from 'resources'
+  into 'target'
+  include '**/*.xml', '**/*.txt', '**/*.properties'
+}
+
+// ----- Type: Jar
+// A jar task creates a jar file from source files
+task customJar(type: Jar) {
+  manifest {
+    attributes firstKey: 'firstValue', secondKey: 'secondValue'
+  }
+  archiveName = 'hello.jar'
+  destinationDir = file("${buildDir}/jars")
+  from sourceSets.main.classes
+}

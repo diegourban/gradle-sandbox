@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// ------------------------------
+// ----- Dynamic Properties -----
+// ------------------------------
+// tasks comes with a set of intrinsic objects. however, we can also assign any other properties we want.
+// a task object functions like a hashmap
+
+task copyFiles << {
+  // Find files from wherever, copy them
+  // then hardcode a list of files for illustration
+  fileManifest = ['data.csv', 'config.json']
+}
+
+task createArtifact(dependsOn: copyFiles) << {
+  println "Files in manifest: ${copyFiles.fileManifest}"
+}
