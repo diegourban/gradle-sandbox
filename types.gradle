@@ -15,6 +15,16 @@ task copyFiles(type: Copy) {
   include '**/*.xml', '**/*.txt', '**/*.properties'
 }
 
+sourceSets {
+  main {
+    classesDir {
+      java {
+    	srcDir 'src/main/java'
+      }
+    }
+  }
+}
+
 // ----- Type: Jar
 // A jar task creates a jar file from source files
 task customJar(type: Jar) {
@@ -23,5 +33,14 @@ task customJar(type: Jar) {
   }
   archiveName = 'hello.jar'
   destinationDir = file("${buildDir}/jars")
-  from sourceSets.main.classes
+  //from sourceSets.main.classes
+}
+
+// ----- Type: JavaExec
+//Runs a java class with main method
+task encode(type: JavaExec, dependsOn: classes) {
+  main = 'br.com.urban.sandbox.gradle.HelloWorld'
+  args = 'bla'
+  classpath = sourceSets.main.classesDir
+  classpath = configurations.runtime
 }
