@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'junit:junit:4.8.2'
+  testCompile 'org.testng:testng:6.0.1'
+}
+
+test {
+  // paralelizando os testes
+  maxParallelForks = 5
+  forkEvery = 50
+}
