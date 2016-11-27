@@ -39,7 +39,7 @@ task customJar(type: Jar) {
 // ----- Type: JavaExec
 //Runs a java class with main method
 task encode(type: JavaExec, dependsOn: classes) {
-  main = 'br.com.urban.sandbox.gradle.HelloWorld'
+  main = 'urban.sandbox.gradle.HelloWorld'
   args = 'bla'
   classpath = sourceSets.main.classesDir
   classpath = configurations.runtime

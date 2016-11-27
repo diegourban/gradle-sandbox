@@ -1,4 +1,4 @@
-package br.com.urban.sandbox.gradle;
+package urban.sandbox.gradle;
 
 public class HelloWorld {
 	
